@@ -102,12 +102,12 @@ export default function MiniDrawer() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+// FDDAC2
   return (
     <>
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{backgroundColor: '#764B36',  marginBottom: '1px' }}>
+      <AppBar position="fixed" open={open} sx={{backgroundColor: '#f4a82e',  marginBottom: '1px' }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -151,7 +151,6 @@ export default function MiniDrawer() {
                     justifyContent: 'center',
                   }}
                 >
-                    
                   {index === 0 ? <AccountCircleIcon /> : index === 1 ? <NotificationsNoneIcon /> : index === 2 ? <SearchIcon /> : <CalendarMonthIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
@@ -183,7 +182,7 @@ export default function MiniDrawer() {
               </ListItemButton>
             </ListItem>
           ))}
-        </List>
+        </List>I
       </Drawer>
     </Box>
     </>
