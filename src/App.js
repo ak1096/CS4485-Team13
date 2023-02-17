@@ -10,7 +10,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/search" element={<Search />}> 
-          {/* routes: home, search, settings, profile? */}
           </Route>
         </Routes>
       </BrowserRouter>
