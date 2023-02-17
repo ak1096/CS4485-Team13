@@ -1,4 +1,11 @@
-# Getting Started with Create React App
+# Screenshots
+
+## Home
+
+[![Screenshot-2023-02-17-at-1-22-39-AM.png](https://i.postimg.cc/5NZjyVjW/Screenshot-2023-02-17-at-1-22-39-AM.png)](https://postimg.cc/SJfm1HWg)
+
+## Search
+[![Screenshot-2023-02-17-at-1-25-09-AM.png](https://i.postimg.cc/fRyL8RFd/Screenshot-2023-02-17-at-1-25-09-AM.png)](https://postimg.cc/cvq0H0d1)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
