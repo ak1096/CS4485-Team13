@@ -44,9 +44,7 @@ export default function Home() {
         <Grid item xs={6}>
           <Item>
             <Typography variant="h4">Upcoming Appointments</Typography>
-            <MiniCard initials='JD' name="John Doe" date="February 14, 2023"/>
-            <MiniCard initials='PT' name="Paige Turner" date="February 21, 2023"/>
-            <MiniCard initials='MP' name="Megan Jovon Ruth Pete" date="February 28, 2023"/>
+            <MiniCard />
         </Item>
         </Grid>
         <Grid item xs={6}>
