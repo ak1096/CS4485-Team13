@@ -6,29 +6,33 @@ import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Chip from '@mui/material/Chip';
+import { TutorList } from "../data/Tutors";
 
-const TutorCard = (props) => {
+const TutorCard = () => {
   return (
-    <Card sx={{ marginLeft: '10%', marginTop: '2%', maxWidth: '50%' }}>
+    TutorList.map((text, index) => (
+      <Card sx={{ marginLeft: '10%', marginTop: '2%', maxWidth: '50%' }}>
       <CardHeader
         avatar={
-          <Avatar>
-            {props.initials}
-          </Avatar>
+          <Avatar> {text.initials} </Avatar>
         }
-        title={props.name}
-        subheader={props.subtitle}
+        title={text.name}
+        subheader={text.subtitle}
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {props.desc}
+        <Typography variant="body2" color="text.secondary" align="left">
+          {text.desc}
         </Typography>
       </CardContent>
       <CardActions>
-        <Chip label={props.subject1} />
-        <Chip label={props.subject2} />
+        {text.subjects.map((subj, ind) => {
+          return (
+            <Chip label={subj} />
+          )
+        })}
       </CardActions>
     </Card>
+    ))
   );
 }
 

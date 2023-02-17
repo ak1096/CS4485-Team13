@@ -17,12 +17,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import SchoolIcon from '@mui/icons-material/School';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import SearchIcon from '@mui/icons-material/Search';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import LogoutIcon from '@mui/icons-material/Logout';
-import SettingsIcon from '@mui/icons-material/Settings';
+import { SideMenuTopList, SideMenuBottomList } from '../data/IconLabels';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -135,54 +131,61 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Profile', 'Notifications', 'Search', 'Calendar'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                    
-                  {index === 0 ? <AccountCircleIcon /> : index === 1 ? <NotificationsNoneIcon /> : index === 2 ? <SearchIcon /> : <CalendarMonthIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          {
+            SideMenuTopList.map((text, index) => (
+              <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+                <Link to={text.link}>
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? 'initial' : 'center',
+                      px: 2.5,
+                    }}
+                  >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {text.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={text.title} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton> 
+                </Link>
+              </ListItem>
+            ))
+          }
         </List>
         <Divider />
         <List>
-          {['Logout', 'Settings'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index % 2 === 0 ? <LogoutIcon /> : <SettingsIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+        {
+            SideMenuBottomList.map((text, index) => (
+              <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+                <Link to={text.link}>
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? 'initial' : 'center',
+                      px: 2.5,
+                    }}
+                  >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {text.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={text.title} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton> 
+                </Link>
+              </ListItem>
+            ))
+          }
         </List>
       </Drawer>
     </Box>
