@@ -9,7 +9,8 @@ function App() {
       <ResponsiveDrawer />
       <BrowserRouter>
         <Routes>
-          <Route path="/search" element={<Search />}>
+          <Route path="/search" element={<Search />}> 
+          {/* routes: home, search, settings, profile? */}
           </Route>
         </Routes>
       </BrowserRouter>
