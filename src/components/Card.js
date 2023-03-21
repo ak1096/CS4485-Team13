@@ -11,26 +11,26 @@ import { TutorList } from "../data/Tutors";
 const TutorCard = () => {
   return (
     TutorList.map((text, index) => (
-      <Card sx={{ marginLeft: '10%', marginTop: '2%', maxWidth: '50%' }}>
-      <CardHeader
-        avatar={
-          <Avatar> {text.initials} </Avatar>
-        }
-        title={text.name}
-        subheader={text.subtitle}
-      />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary" align="left">
-          {text.desc}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        {text.subjects.map((subj, ind) => {
-          return (
-            <Chip label={subj} />
-          )
-        })}
-      </CardActions>
+      <Card key={index} sx={{ marginLeft: '10%', marginTop: '2%', maxWidth: '50%' }}>
+        <CardHeader
+          avatar={
+            <Avatar> {text.initials} </Avatar>
+          }
+          title={text.name}
+          subheader={text.subtitle}
+        />
+        <CardContent>
+          <Typography variant="body2" color="text.secondary" align="left">
+            {text.desc}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          {text.subjects.map((subj, ind) => {
+            return (
+              <Chip label={subj} />
+            )
+          })}
+        </CardActions>
     </Card>
     ))
   );

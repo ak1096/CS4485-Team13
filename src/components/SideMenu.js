@@ -19,6 +19,8 @@ import ListItemText from '@mui/material/ListItemText';
 import SchoolIcon from '@mui/icons-material/School';
 import { SideMenuTopList, SideMenuBottomList } from '../data/IconLabels';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+
 
 const drawerWidth = 240;
 
@@ -99,96 +101,102 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
-  return (
-    <>
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{backgroundColor: '#764B36',  marginBottom: '1px' }}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <SchoolIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography variant="h6" noWrap component="div">
-            TIHKR
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
+  const location = useLocation();
+
+  
+
+  if (location.pathname !== '/login' && location.pathname !== '/signup') {
+    return (
+      <>
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        <AppBar position="fixed" open={open} sx={{backgroundColor: '#764B36',  marginBottom: '1px' }}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5,
+                ...(open && { display: 'none' }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <SchoolIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+            <Typography variant="h6" noWrap component="div">
+              TIHKR
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer variant="permanent" open={open}>
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <List>
+            {
+              SideMenuTopList.map((text, index) => (
+                <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+                  <Link to={text.link}>
+                    <ListItemButton
+                      sx={{
+                        minHeight: 48,
+                        justifyContent: open ? 'initial' : 'center',
+                        px: 2.5,
+                      }}
+                    >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : 'auto',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      {text.icon}
+                    </ListItemIcon>
+                    <ListItemText primary={text.title} sx={{ opacity: open ? 1 : 0 }} />
+                  </ListItemButton> 
+                  </Link>
+                </ListItem>
+              ))
+            }
+          </List>
+          <Divider />
+          <List>
           {
-            SideMenuTopList.map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                <Link to={text.link}>
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? 'initial' : 'center',
-                      px: 2.5,
-                    }}
-                  >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    {text.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={text.title} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton> 
-                </Link>
-              </ListItem>
-            ))
-          }
-        </List>
-        <Divider />
-        <List>
-        {
-            SideMenuBottomList.map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                <Link to={text.link}>
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? 'initial' : 'center',
-                      px: 2.5,
-                    }}
-                  >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    {text.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={text.title} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton> 
-                </Link>
-              </ListItem>
-            ))
-          }
-        </List>
-      </Drawer>
-    </Box>
-    </>
-  );
+              SideMenuBottomList.map((text, index) => (
+                <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+                  <Link to={text.link}>
+                    <ListItemButton
+                      sx={{
+                        minHeight: 48,
+                        justifyContent: open ? 'initial' : 'center',
+                        px: 2.5,
+                      }}
+                    >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : 'auto',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      {text.icon}
+                    </ListItemIcon>
+                    <ListItemText primary={text.title} sx={{ opacity: open ? 1 : 0 }} />
+                  </ListItemButton> 
+                  </Link>
+                </ListItem>
+              ))
+            }
+          </List>
+        </Drawer>
+      </Box>
+      </>
+    );
+  } 
 }

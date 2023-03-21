@@ -9,7 +9,7 @@ import { UpcomingList } from '../data/Tutors';
 export default function MiniCard(props) {
   return (
     UpcomingList.map((text, index) => (
-      <List sx={{ width: '100%', maxWidth: '100%', bgcolor: 'background.paper' }}>
+      <List key={index} sx={{ width: '100%', maxWidth: '100%', bgcolor: 'background.paper' }}>
         <ListItem>
           <ListItemAvatar>
             <Avatar>
