@@ -6,6 +6,8 @@ import TextField from '@mui/material/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import Link from '@mui/material/Link';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 const useStyles = makeStyles(() => ({
   customInput: {
@@ -23,13 +25,21 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function LoginPage() {
-    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [isValid, setIsValid] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [isStudent, setIsStudent] = useState(false);
+    const [isTutor, setIsTutor] = useState(false);
 
-    const handleUsernameChange = (event) => {
-        setUsername(event.target.value);
-        console.log('username: ' + username);
+    const handleIsStudentChange = (event) => {
+        setIsStudent(event.target.checked);
+    };
+
+    const handleIsTutorChange = (event) => {
+        setIsTutor(event.target.checked);
     };
 
     const handlePasswordChange = (event) => {
@@ -37,10 +47,26 @@ export default function LoginPage() {
         console.log('password: ' + password);
     };
 
+    const handleFirstNameChange = (event) => {
+        setFirstName(event.target.value);
+        console.log('firstName: ' + firstName);
+    };
+
+    const handleLastNameChange = (event) => {
+        setLastName(event.target.value);
+        console.log('lastName: ' + lastName);
+    };
+
+    const handleEmailChange = (e) => {
+        const temp = e.target.value;
+        setEmail(temp);
+        console.log('email: ' + email);
+        setIsValid(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(temp) && temp.endsWith('@utdallas.edu'));
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
         setSubmitted(true);
-        console.log('button clicked')
       };
 
     const classes = useStyles();
@@ -65,16 +91,16 @@ export default function LoginPage() {
                     label="first name" 
                     className={classes.customInput} 
                     variant="outlined"
-                    value={username}
-                    onChange={handleUsernameChange}
+                    value={firstName}
+                    onChange={handleFirstNameChange}
                     />
                     <TextField 
                     id="standard-basic" 
                     label="last name" 
                     className={classes.customInput} 
                     variant="outlined"
-                    value={username}
-                    onChange={handleUsernameChange}
+                    value={lastName}
+                    onChange={handleLastNameChange}
                     />
                 </Box>
 
@@ -85,9 +111,10 @@ export default function LoginPage() {
                 label="email" 
                 className={classes.customInput} 
                 variant="outlined"
-                value={username}
-                onChange={handleUsernameChange}
+                value={email}
+                onChange={handleEmailChange}
                 />
+                {submitted && email.trim() !== '' ? ( isValid ? <p>Email is valid</p> : <p>Email is invalid</p>) : null}
 
                 <div style={{marginBottom: "3%"}}/>
 
@@ -100,8 +127,32 @@ export default function LoginPage() {
                 value={password}
                 onChange={handlePasswordChange} />
 
-                <div style={{marginBottom: "3%"}}/>
+                <Box  
+                component="form"
+                sx={{
+                  '& > :not(style)': { m: 2, width: '10ch' },
+                }}
+                noValidate
+                autoComplete="off">
+                    <FormControlLabel 
+                    control={<Checkbox 
+                    defaultChecked 
+                    checked={isStudent}
+                    onChange={handleIsStudentChange}
+                    disabled={isTutor}
+                    />} 
+                    label="Student" />
 
+                    <FormControlLabel 
+                    control={<Checkbox 
+                    defaultChecked 
+                    checked={isTutor}
+                    onChange={handleIsTutorChange}
+                    disabled={isStudent}
+                    />} 
+                    label="Tutor" />
+                </Box>
+                
                 <Button
                 variant="contained"
                 className={classes.customButton}
@@ -113,8 +164,15 @@ export default function LoginPage() {
                 <div style={{marginBottom: "3%"}}/>
 
                 <Typography variant="body1">Have an account? <Link href="/login">Sign in</Link></Typography>
+                {/* 
+                tutor sign up:
+                - upload profile picture
+                - add summary
+                - add description
+                - add skills
+                 */}
                 
-            {submitted && <Typography>You have submitted: {username}, {password}</Typography>}
+            {/* {submitted && isValid && <Typography>You have submitted: {email}, {password}</Typography>} */}
         </Grid>  
       </Grid>
     </Box>
