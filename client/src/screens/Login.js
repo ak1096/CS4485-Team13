@@ -6,8 +6,14 @@ import TextField from '@mui/material/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import Link from '@mui/material/Link';
+import online from '../images/online.svg';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
+  root: {
+    minHeight: '100vh',
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing(4),
+  },
   customInput: {
     width: "50%",
   },
@@ -24,7 +30,6 @@ const useStyles = makeStyles(() => ({
 
 export default function LoginPage() {
   async function loginUser() {
-    // e.preventDefault();
     const res = await fetch('http://localhost:8080/auth/login', {
       method: 'POST',
       headers: {
@@ -34,77 +39,81 @@ export default function LoginPage() {
         email,
         password
       })
-    }) 
+    })
     const data = await res.json();
     console.log(data);
   }
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [submitted, setSubmitted] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
-        console.log('email: ' + email);
-    };
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+    console.log('email: ' + email);
+  };
 
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-        console.log('password: ' + password);
-    };
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+    console.log('password: ' + password);
+  };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        setSubmitted(true);
-        loginUser();
-        console.log('button clicked')
-      };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setSubmitted(true);
+    loginUser();
+    console.log('button clicked')
+  };
 
-    const classes = useStyles();
+  const classes = useStyles();
   return (
-  <Box sx={{ flexGrow: 1 }}>
-    <Grid container spacing={2}>
-        <Grid style={{height: '102vh', width: '50%' , backgroundColor: '#C88A36'}} item xs={6}/>
+    <Box className={classes.root}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <Box display="flex" justifyContent="center" style={{ marginTop: '25%' }} >
+            <img src={online} alt="login" />
+          </Box>
+        </Grid>
         <Grid item xs={6} container
-            direction="column"
-            justifyContent="center"
-            alignItems="center">
-                <h1> TIHKR </h1>
-                <TextField 
-                id="standard-basic" 
-                label="email" 
-                className={classes.customInput} 
-                variant="outlined"
-                value={email}
-                onChange={handleEmailChange}
-                />
+          direction="column"
+          justifyContent="center"
+          alignItems="center">
+          <h1> TIHKR </h1>
+          <TextField
+            id="standard-basic"
+            label="email"
+            className={classes.customInput}
+            variant="outlined"
+            value={email}
+            onChange={handleEmailChange}
+          />
 
-                <div style={{marginBottom: "3%"}}/>
+          <div style={{ marginBottom: "3%" }} />
 
-                <TextField 
-                id="standard-basic" 
-                label="password" 
-                className={classes.customInput} 
-                variant="outlined"
-                type="password"
-                value={password}
-                onChange={handlePasswordChange} />
+          <TextField
+            id="standard-basic"
+            label="password"
+            className={classes.customInput}
+            variant="outlined"
+            type="password"
+            value={password}
+            onChange={handlePasswordChange} />
 
-                <div style={{marginBottom: "3%"}}/>
+          <div style={{ marginBottom: "3%" }} />
 
-                <Button
-                variant="contained"
-                className={classes.customButton}
-                onClick={handleSubmit}
-                >
-                Sign In
-                </Button>
+          <Button
+            variant="contained"
+            className={classes.customButton}
+            onClick={handleSubmit}
+          >
+            Sign In
+          </Button>
 
-                <div style={{marginBottom: "3%"}}/>
+          <div style={{ marginBottom: "3%" }} />
 
-                <Typography variant="body1">Don't have an account yet? Sign up <Link href="/signup">here</Link></Typography>
-{/*                 
+          <Typography variant="body1">Don't have an account yet? Sign up <Link href="/">here</Link></Typography>
+          {/*                 
             {submitted && <Typography>You have submitted: {email}, {password}</Typography>} */}
-        </Grid>  
+        </Grid>
       </Grid>
     </Box>
   );
