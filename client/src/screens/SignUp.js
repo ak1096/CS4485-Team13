@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import { Typography } from '@mui/material';
-import TextField from '@mui/material/TextField';
+import { Box, Grid, Typography, TextField, Link, Checkbox, FormControlLabel } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
-import Link from '@mui/material/Link';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 
 const useStyles = makeStyles(() => ({
   customInput: {
@@ -25,6 +19,24 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function LoginPage() {
+  async function registerUser() {
+    const res = await fetch('http://localhost:8080/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName,
+        lastName, 
+        email,
+        password
+      })
+    }) 
+    const data = await res.json();
+    console.log(data);
+  }
+  
+
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [isValid, setIsValid] = useState(false);
@@ -67,9 +79,18 @@ export default function LoginPage() {
     const handleSubmit = (event) => {
         event.preventDefault();
         setSubmitted(true);
+        if (isTutor) {
+            window.location.href = '/tutor-signup';
+        } else {
+            // window.location.href = '/';
+            registerUser(event);
+        }
       };
 
     const classes = useStyles();
+
+    
+
   return (
   <Box sx={{ flexGrow: 1 }}>
     <Grid container spacing={2}>

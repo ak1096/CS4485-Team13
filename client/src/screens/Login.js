@@ -23,13 +23,28 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function LoginPage() {
-    const [username, setUsername] = useState('');
+  async function loginUser() {
+    // e.preventDefault();
+    const res = await fetch('http://localhost:8080/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email,
+        password
+      })
+    }) 
+    const data = await res.json();
+    console.log(data);
+  }
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [submitted, setSubmitted] = useState(false);
 
-    const handleUsernameChange = (event) => {
-        setUsername(event.target.value);
-        console.log('username: ' + username);
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
+        console.log('email: ' + email);
     };
 
     const handlePasswordChange = (event) => {
@@ -40,6 +55,7 @@ export default function LoginPage() {
     const handleSubmit = (event) => {
         event.preventDefault();
         setSubmitted(true);
+        loginUser();
         console.log('button clicked')
       };
 
@@ -55,11 +71,11 @@ export default function LoginPage() {
                 <h1> TIHKR </h1>
                 <TextField 
                 id="standard-basic" 
-                label="username" 
+                label="email" 
                 className={classes.customInput} 
                 variant="outlined"
-                value={username}
-                onChange={handleUsernameChange}
+                value={email}
+                onChange={handleEmailChange}
                 />
 
                 <div style={{marginBottom: "3%"}}/>
@@ -86,8 +102,8 @@ export default function LoginPage() {
                 <div style={{marginBottom: "3%"}}/>
 
                 <Typography variant="body1">Don't have an account yet? Sign up <Link href="/signup">here</Link></Typography>
-                
-            {submitted && <Typography>You have submitted: {username}, {password}</Typography>}
+{/*                 
+            {submitted && <Typography>You have submitted: {email}, {password}</Typography>} */}
         </Grid>  
       </Grid>
     </Box>

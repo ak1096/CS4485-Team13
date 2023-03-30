@@ -105,7 +105,7 @@ export default function MiniDrawer() {
 
   
 
-  if (location.pathname !== '/login' && location.pathname !== '/signup') {
+  if (location.pathname !== '/login' && location.pathname !== '/signup' && location.pathname !== '/tutor-signup') {
     return (
       <>
       <Box sx={{ display: 'flex' }}>
