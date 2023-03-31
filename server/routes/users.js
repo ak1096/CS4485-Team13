@@ -6,6 +6,7 @@ const Tutor = require("../models/tutor.model.js");
 
 const router = express.Router();
 
+// defines a route for a POST request to register a new student user
 router.post("/student-register", async (req, res) => {
     const { firstName, lastName, email, password, year } = req.body;
 
@@ -24,6 +25,8 @@ router.post("/student-register", async (req, res) => {
     res.json({ message: 'User registered successfully'});
 });
 
+
+// defines a route for a POST request to register a new tutor user
 router.post("/tutor-register", async (req, res) => {
     const { firstName, lastName, email, password, biography, subjects } = req.body;
 

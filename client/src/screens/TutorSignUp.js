@@ -2,41 +2,25 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { makeStyles } from '@material-ui/core/styles';
-import { Button, Typography } from '@material-ui/core';
+import { useStyles } from "../styles/styling";
+import { Button, Typography, Link } from '@material-ui/core';
 import Chip from '@mui/material/Chip';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import teaching from '../images/teacher.svg';
-
-const useStyles = makeStyles(() => ({
-  customInput: {
-    width: "70%",
-  },
-  customButton: {
-    backgroundColor: '#F99285',
-    color: '#fff',
-    '&:hover': {
-      backgroundColor: '#456B63',
-    },
-    width: "70%",
-    height: "5%"
-  },
-}));
+import useForm from './CustomHook.js';
 
 export default function TutorSignUp() {
   const [submitted, setSubmitted] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [subjects, setSubjects] = useState([]);
   const [selectedChips, setSelectedChips] = useState([]);
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [isValid, setIsValid] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [biography, setBiography] = useState('');
 
+  const { password, firstName, lastName, email, isValid, handlePasswordChange, handleFirstNameChange, handleLastNameChange, handleEmailChange } = useForm();
+
   async function registerTutor() {
+    // make a POST request to the API endpoint for tutor registration
     const res = await fetch('http://localhost:8080/auth/tutor-register', {
       method: 'POST',
       headers: {
@@ -44,60 +28,30 @@ export default function TutorSignUp() {
       },
       body: JSON.stringify({
         firstName,
-        lastName, 
+        lastName,
         email,
-        password, 
+        password,
         biography,
         subjects
       })
-    }) 
+    })
     const data = await res.json();
     console.log(data);
   }
 
-  const handleBiographyChange = (event) => {
-    setBiography(event.target.value);
-    console.log('biography: ' + biography);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-    console.log('password: ' + password);
-  };
-
-  const handleFirstNameChange = (event) => {
-    setFirstName(event.target.value);
-    console.log('firstName: ' + firstName);
-  };
-
-  const handleLastNameChange = (event) => {
-    setLastName(event.target.value);
-    console.log('lastName: ' + lastName);
-  };
-
-  const handleEmailChange = (e) => {
-    const temp = e.target.value;
-    setEmail(temp);
-    console.log('email: ' + email);
-    setIsValid(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(temp) && temp.endsWith('@utdallas.edu'));
-  }
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-  };
-
   const handleInputKeyDown = (event) => {
     if (event.key === 'Enter') {
-        const newLabel = inputValue.trim();
-        if (newLabel && !selectedChips.some((chip) => chip.label.toLowerCase() === newLabel.toLowerCase())) {
-          const newChip = { label: newLabel };
-          setSelectedChips([...selectedChips, newChip]);
-          setSubjects([...subjects, newLabel]);
-        }
-        setInputValue('');
+      const newLabel = inputValue.trim();
+      if (newLabel && !selectedChips.some((chip) => chip.label.toLowerCase() === newLabel.toLowerCase())) {
+        const newChip = { label: newLabel };
+        setSelectedChips([...selectedChips, newChip]);
+        setSubjects([...subjects, newLabel]);
       }
+      setInputValue('');
+    }
   };
 
   const handleDeleteChip = (chipToDelete) => () => {
@@ -105,15 +59,17 @@ export default function TutorSignUp() {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    setSubmitted(true);
-    registerTutor();
-    console.log('button clicked')
+    if (isValid) {
+      setSubmitted(true);
+      registerTutor();
+    } else {
+      return console.log("invalid email");
+    }
   };
 
   const classes = useStyles();
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box className={classes.root} sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
 
         <Grid item xs={6} container
@@ -121,33 +77,34 @@ export default function TutorSignUp() {
           justifyContent="center"
           alignItems="center">
 
-<Typography variant="h4" gutterBottom> Register as Tutor </Typography>
-          <Box
-            component="form"
-            sx={{
-              '& > :not(style)': { m: 1, width: '25ch' },
-            }}
-            noValidate
-            autoComplete="off">
-            <TextField
-              id="standard-basic"
-              label="first name"
-              className={classes.customInput}
-              variant="outlined"
-              value={firstName}
-              onChange={handleFirstNameChange}
-            />
-            <TextField
-              id="standard-basic"
-              label="last name"
-              className={classes.customInput}
-              variant="outlined"
-              value={lastName}
-              onChange={handleLastNameChange}
-            />
+          <Typography variant="h4" gutterBottom> Register as Tutor </Typography>
+
+          <Box width="70%">
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField fullWidth
+                  label="first name"
+                  variant="outlined"
+                  value={firstName}
+                  onChange={handleFirstNameChange}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <TextField fullWidth
+                  label="last name"
+                  className={classes.customInput}
+                  variant="outlined"
+                  value={lastName}
+                  onChange={handleLastNameChange}
+                />
+              </Grid>
+            </Grid>
+
+
           </Box>
 
-          <div style={{ marginBottom: "3%" }} />
+          <div className={classes.divider} />
 
           <TextField
             id="standard-basic"
@@ -159,7 +116,7 @@ export default function TutorSignUp() {
           />
           {submitted && email.trim() !== '' ? (isValid ? <p>Email is valid</p> : <p>Email is invalid</p>) : null}
 
-          <div style={{ marginBottom: "3%" }} />
+          <div className={classes.divider} />
 
           <TextField
             id="standard-basic"
@@ -170,7 +127,7 @@ export default function TutorSignUp() {
             value={password}
             onChange={handlePasswordChange} />
 
-          <div style={{ marginBottom: "3%" }} />
+          <div className={classes.divider} />
 
 
           <TextField
@@ -178,7 +135,7 @@ export default function TutorSignUp() {
             label="biography"
             multiline
             value={biography}
-            onChange={handleBiographyChange}
+            onChange={(e) => { setBiography(e.target.value); }}
             sx={{ width: '70%' }}
             inputProps={{
               style: {
@@ -187,34 +144,37 @@ export default function TutorSignUp() {
             }}
           />
 
-          <div style={{ marginBottom: "3%" }} />
+          <div className={classes.divider} />
 
-          <TextField 
-        label="Enter skills"
-        value={inputValue}
-        onChange={handleInputChange}
-        onKeyDown={handleInputKeyDown}
-        sx={{width: '70%'}}
-        InputProps={{
-          startAdornment: selectedChips.map((chip) => (
-            <Chip
-              key={chip.label}
-              label={chip.label}
-              onDelete={handleDeleteChip(chip)}
-              sx={{ margin: '4px' }}
-            />
-          ))
-        }}/>
+          <TextField
+            label="Subjects"
+            value={inputValue}
+            onChange={(e) => { setInputValue(e.target.value) }}
+            onKeyDown={handleInputKeyDown}
+            sx={{ width: '70%' }}
+            InputProps={{
+              startAdornment: selectedChips.map((chip) => (
+                <Chip
+                  key={chip.label}
+                  label={chip.label}
+                  onDelete={handleDeleteChip(chip)}
+                  sx={{ margin: '4px' }}
+                />
+              ))
+            }} />
 
-          <div style={{ marginBottom: "3%" }} />
+          <div className={classes.divider} />
 
           <Button
             variant="contained"
             className={classes.customButton}
             onClick={handleSubmit}
+            disabled={!password || !firstName || !lastName || !email || !biography}
           >
             Sign Up
           </Button>
+          <div className={classes.divider} />
+          <Typography variant="body1">Have an account? <Link href="/login">Sign in</Link></Typography>
 
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -224,7 +184,5 @@ export default function TutorSignUp() {
         </Grid>
       </Grid>
     </Box>
-
-
   );
 }

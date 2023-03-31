@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// schema defines the fields for the User document
 const User = new mongoose.Schema(
     {
         firstName: {type: String, required: true},

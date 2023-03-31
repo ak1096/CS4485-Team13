@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, FormControlLabel, Checkbox, Box, Grid, Button, Link } from '@material-ui/core';
+import { Typography, FormControlLabel, Box, Grid, Button, Link } from '@material-ui/core';
+import Checkbox from '@mui/material/Checkbox';
 import teaching from '../images/teaching.svg';
 
 const useStyles = makeStyles((theme) => ({

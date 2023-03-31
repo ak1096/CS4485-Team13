@@ -1,31 +1,19 @@
 import React, { useState } from 'react';
 import { Box, Grid, Typography, TextField, Link, InputLabel, FormControl, Select, MenuItem } from '@mui/material';
-import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
+import { useStyles } from "../styles/styling";
 import student from '../images/student.svg'; // import your image component here
+import useForm from './CustomHook.js';
 
-const useStyles = makeStyles(() => ({
-  customInput: {
-    width: "50%",
-  },
-  customButton: {
-    backgroundColor: '#F99285',
-    color: '#fff',
-    '&:hover': {
-      backgroundColor: '#456B63',
-    },
-    width: "50%",
-    height: "5%"
-  },
-}));
-
-export default function LoginPage() {
+export default function StudentSignUp() {
   async function registerUser() {
+    // make a POST request to the API endpoint for student registration
     const res = await fetch('http://localhost:8080/auth/student-register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
+      // include the user's registration data in the request body
       body: JSON.stringify({
         firstName,
         lastName,
@@ -34,94 +22,71 @@ export default function LoginPage() {
         year
       })
     })
+
     const data = await res.json();
     console.log(data);
   }
 
 
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [isValid, setIsValid] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [year, setYear] = useState('');
-
-  const handleYearChange = (event) => {
-    setYear(event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-    console.log('password: ' + password);
-  };
-
-  const handleFirstNameChange = (event) => {
-    setFirstName(event.target.value);
-    console.log('firstName: ' + firstName);
-  };
-
-  const handleLastNameChange = (event) => {
-    setLastName(event.target.value);
-    console.log('lastName: ' + lastName);
-  };
-
-  const handleEmailChange = (e) => {
-    const temp = e.target.value;
-    setEmail(temp);
-    console.log('email: ' + email);
-    setIsValid(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(temp) && temp.endsWith('@utdallas.edu'));
-  }
+  // destructure properties from the result of the useForm() hook
+  // destructure: returns an object that contains properties for storing and updating the values of various form fields
+  const { password, firstName, lastName, email, isValid, handlePasswordChange, handleFirstNameChange, handleLastNameChange, handleEmailChange } = useForm();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setSubmitted(true);
-    registerUser();
+    if (isValid) {
+      setSubmitted(true);
+      registerUser();
+    } else {
+      return console.log("invalid email");
+    }
   };
 
   const classes = useStyles();
 
-
-
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box className={classes.root} sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Box display="flex" justifyContent="center">
             <img style={{ marginTop: '10%', paddingBottom: '5%' }} src={student} alt="teaching" />
           </Box>
         </Grid>
+
         <Grid item xs={6} container
           direction="column"
           justifyContent="center"
           alignItems="center">
+
           <Typography variant="h4" gutterBottom> Register as Student </Typography>
-          <Box
-            component="form"
-            sx={{
-              '& > :not(style)': { m: 1, width: '17.6ch' },
-            }}
-            noValidate
-            autoComplete="off">
-            <TextField
-              id="standard-basic"
-              label="first name"
-              className={classes.customInput}
-              variant="outlined"
-              value={firstName}
-              onChange={handleFirstNameChange}
-            />
-            <TextField
-              id="standard-basic"
-              label="last name"
-              className={classes.customInput}
-              variant="outlined"
-              value={lastName}
-              onChange={handleLastNameChange}
-            />
+
+          <Box width="70%">
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="first name"
+                  variant="outlined"
+                  value={firstName}
+                  onChange={handleFirstNameChange}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="last name"
+                  variant="outlined"
+                  value={lastName}
+                  onChange={handleLastNameChange}
+                />
+              </Grid>
+            </Grid>
           </Box>
 
-          <div style={{ marginBottom: "3%" }} />
+          <div className={classes.divider} />
 
           <TextField
             id="standard-basic"
@@ -133,7 +98,7 @@ export default function LoginPage() {
           />
           {submitted && email.trim() !== '' ? (isValid ? <p>Email is valid</p> : <p>Email is invalid</p>) : null}
 
-          <div style={{ marginBottom: "3%" }} />
+          <div className={classes.divider} />
 
           <TextField
             id="standard-basic"
@@ -144,11 +109,11 @@ export default function LoginPage() {
             value={password}
             onChange={handlePasswordChange} />
 
-          <div style={{ marginBottom: "3%" }} />
+          <div className={classes.divider} />
 
-          <FormControl fullWidth style={{ width: '50%' }}>
+          <FormControl fullWidth style={{ width: '70%' }}>
             <InputLabel>year</InputLabel>
-            <Select value={year} onChange={handleYearChange} >
+            <Select value={year} onChange={(e) => { setYear(e.target.value); }} >
               <MenuItem value="Freshman">Freshman</MenuItem>
               <MenuItem value="Sophomore">Sophomore</MenuItem>
               <MenuItem value="Junior">Junior</MenuItem>
@@ -157,17 +122,18 @@ export default function LoginPage() {
             </Select>
           </FormControl>
 
-          <div style={{ marginBottom: "3%" }} />
+          <div className={classes.divider} />
 
           <Button
             variant="contained"
             className={classes.customButton}
             onClick={handleSubmit}
+            disabled={!password || !firstName || !lastName || !email}
           >
             Sign Up
           </Button>
 
-          <div style={{ marginBottom: "3%" }} />
+          <div className={classes.divider} />
 
           <Typography variant="body1">Have an account? <Link href="/login">Sign in</Link></Typography>
 
