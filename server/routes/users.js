@@ -45,7 +45,7 @@ router.post("/tutor-register", async (req, res) => {
     res.json({ message: 'Tutor registered successfully'});
 });
 
-function validatePassword(isPasswordValid) {
+function validatePassword(isPasswordValid, res) {
     if (!isPasswordValid) {
         return res.json({ message: "Username or password is incorrect!"});
     }
@@ -65,15 +65,22 @@ router.post("/login", async (req, res) => {
 
     if (user) {
         isPasswordValid = await bcrypt.compare(password, user.password);
-        validatePassword(isPasswordValid);
-        const token = jwt.sign({ id: user._id}, "secret");
-        res.json({ token, userID: user._id});
-
+        validatePassword(isPasswordValid, res);
+        if (validatePassword) {
+            const token = jwt.sign({ id: user._id}, "secret");
+            res.json({ token, userID: user._id});
+        } else {
+            return res.json({ message: "Password incorrect"});
+        }
     } else {
         isPasswordValid = await bcrypt.compare(password, tutor.password);
-        validatePassword(isPasswordValid);
-        const token = jwt.sign({ id: tutor._id}, "secret");
-        res.json({ token, userID: tutor._id});
+        validatePassword(isPasswordValid, res);
+        if (validatePassword) {
+            const token = jwt.sign({ id: tutor._id}, "secret");
+            res.json({ token, userID: tutor._id});
+        } else {
+            return res.json({ message: "Password incorrect"});
+        }
     }
     
 });
