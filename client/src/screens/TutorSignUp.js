@@ -62,6 +62,7 @@ export default function TutorSignUp() {
     if (isValid) {
       setSubmitted(true);
       registerTutor();
+      alert('Registration successful, login')
     } else {
       return console.log("invalid email");
     }

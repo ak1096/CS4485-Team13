@@ -7,6 +7,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import Link from '@mui/material/Link';
 import online from '../images/online.svg';
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+  const [_, setCookies] = useCookies(["access_token"]);
+
   async function loginUser() {
     const res = await fetch('http://localhost:8080/auth/login', {
       method: 'POST',
@@ -41,11 +46,20 @@ export default function LoginPage() {
       })
     })
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
+    if (data.token) {
+      setCookies("access_token", data.token);
+      // console.log('userID: ', data.userID);
+      window.localStorage.setItem("userID", data.userID);
+      navigate('/dashboard');
+    } else {
+      alert(data.message);
+    }
   }
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -57,11 +71,11 @@ export default function LoginPage() {
     console.log('password: ' + password);
   };
 
-  const handleSubmit = (event) => {
+  function handleSubmit(event) {
     event.preventDefault();
     setSubmitted(true);
     loginUser();
-    console.log('button clicked')
+    console.log('button clicked');
   };
 
   const classes = useStyles();

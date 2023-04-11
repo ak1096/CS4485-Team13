@@ -61,27 +61,27 @@ router.post("/login", async (req, res) => {
         return res.json({ message: "User or tutor doesn't exist!"});
     }
 
-    var isPasswordValid;
+    let isPasswordValid;
+    let token;
+    let userID;
 
     if (user) {
         isPasswordValid = await bcrypt.compare(password, user.password);
-        validatePassword(isPasswordValid, res);
-        if (validatePassword) {
-            const token = jwt.sign({ id: user._id}, "secret");
-            res.json({ token, userID: user._id});
-        } else {
+        if (!isPasswordValid) {
             return res.json({ message: "Password incorrect"});
         }
+        token = jwt.sign({ id: user._id}, "secret");
+        userID = user._id;
     } else {
         isPasswordValid = await bcrypt.compare(password, tutor.password);
-        validatePassword(isPasswordValid, res);
-        if (validatePassword) {
-            const token = jwt.sign({ id: tutor._id}, "secret");
-            res.json({ token, userID: tutor._id});
-        } else {
+        if (!isPasswordValid) {
             return res.json({ message: "Password incorrect"});
         }
+        token = jwt.sign({ id: tutor._id}, "secret");
+        userID = tutor._id;
     }
+
+    res.json({ token, userID });
     
 });
 

@@ -39,6 +39,7 @@ export default function StudentSignUp() {
     if (isValid) {
       setSubmitted(true);
       registerUser();
+      alert('Registration successful, login');
     } else {
       return console.log("invalid email");
     }

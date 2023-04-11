@@ -7,7 +7,7 @@ import LoginPage from './screens/Login';
 import SignUpPage from './screens/StudentSignUp';
 import TutorSignUp from './screens/TutorSignUp';
 import StartingPage from './screens/StartingPage';
-import ResponsiveDrawer from './components/SideMenu'; 
+import SideMenu from './components/SideMenu'; 
 import './App.css';
 import { Route, Routes, BrowserRouter } from "react-router-dom"
 
@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <ResponsiveDrawer />
+        <SideMenu />
           <Routes>
             <Route path="/" element={<StartingPage />}/>
             <Route path="/dashboard" element={<Home />}/> 
