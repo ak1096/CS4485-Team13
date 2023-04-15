@@ -8,6 +8,8 @@ import SignUpPage from './screens/StudentSignUp';
 import TutorSignUp from './screens/TutorSignUp';
 import StartingPage from './screens/StartingPage';
 import SideMenu from './components/SideMenu'; 
+import Header from './components/Header';
+
 import './App.css';
 import { Route, Routes, BrowserRouter } from "react-router-dom"
 
@@ -17,6 +19,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <SideMenu />
+        {/* <Header /> */}
           <Routes>
             <Route path="/" element={<StartingPage />}/>
             <Route path="/dashboard" element={<Home />}/> 

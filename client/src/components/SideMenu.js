@@ -126,7 +126,7 @@ function SideMenu() {
       <>
         <Box sx={{ display: 'flex' }}>
           <CssBaseline />
-          <AppBar position="fixed" open={open} sx={{ backgroundColor: '#764B36', marginBottom: '1px' }}>
+          <AppBar position="fixed" open={open} style={{ backgroundColor: '#764B36', marginBottom: '1px' }}>
             <Toolbar>
               <IconButton
                 color="inherit"
@@ -138,10 +138,10 @@ function SideMenu() {
                   ...(open && { display: 'none' }),
                 }}
               >
-                <MenuIcon />
+                <MenuIcon style={{ color: 'white' }}/>
               </IconButton>
-              <SchoolIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-              <Typography variant="h6" noWrap component="div">
+              <SchoolIcon style={{ color: 'white' }} sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+              <Typography variant="h6" style={{ color: 'white' }} noWrap component="div">
                 TIHKR
               </Typography>
             </Toolbar>
