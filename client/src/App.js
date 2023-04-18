@@ -7,6 +7,7 @@ import LoginPage from './screens/Login';
 import SignUpPage from './screens/StudentSignUp';
 import TutorSignUp from './screens/TutorSignUp';
 import StartingPage from './screens/StartingPage';
+import ProfilePage from './screens/Profile';
 import SideMenu from './components/SideMenu'; 
 import './App.css';
 import { Route, Routes, BrowserRouter } from "react-router-dom"
@@ -27,6 +28,7 @@ function App() {
             <Route path="/search" element={<Search />}/> 
             <Route path="/calendar" element={<CalendarPage />}/> 
             <Route path="/settings" element={<SettingsPage />}/> 
+            <Route path="/Profile" element={<ProfilePage />}/> 
           </Routes>
       </BrowserRouter>
     </div>
