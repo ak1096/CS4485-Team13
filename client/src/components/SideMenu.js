@@ -121,7 +121,7 @@ function SideMenu() {
 
 
   if (location.pathname !== '/' && location.pathname !== '/login' && location.pathname !== '/signup'
-    && location.pathname !== '/tutor-signup') {
+    && location.pathname !== '/tutor-signup' ) {
     return (
       <>
         <Box sx={{ display: 'flex' }}>

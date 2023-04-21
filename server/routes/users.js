@@ -28,7 +28,7 @@ router.post("/student-register", async (req, res) => {
 
 // defines a route for a POST request to register a new tutor user
 router.post("/tutor-register", async (req, res) => {
-    const { firstName, lastName, email, password, biography, subjects } = req.body;
+    const { firstName, lastName, email, password, biography, subjects, selectedDays } = req.body;
 
     const user = await Tutor.findOne({ email });
     console.log(req.body);
@@ -39,17 +39,11 @@ router.post("/tutor-register", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new Tutor({ firstName, lastName, email, password: hashedPassword, biography, subjects });
+    const newUser = new Tutor({ firstName, lastName, email, password: hashedPassword, biography, subjects, selectedDays });
     await newUser.save();
 
     res.json({ message: 'Tutor registered successfully'});
 });
-
-function validatePassword(isPasswordValid, res) {
-    if (!isPasswordValid) {
-        return res.json({ message: "Username or password is incorrect!"});
-    }
-};
 
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;

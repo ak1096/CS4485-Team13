@@ -10,7 +10,6 @@ function Tutors() {
     async function fetchData() {
       const response = await fetch('http://localhost:8080/tutors');
       const data = await response.json();
-      console.log("data:\n" + data)
       setTutors(data);
     }
     fetchData();
@@ -20,7 +19,10 @@ function Tutors() {
     const fullName = `${tutor.firstName} ${tutor.lastName}`.toLowerCase();
     return (
       fullName.includes(searchTerm.toLowerCase()) ||
-      tutor._id.toLowerCase().includes(searchTerm.toLowerCase())
+      tutor._id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tutor.subjects.some((subject) =>
+      subject.toLowerCase().includes(searchTerm.toLowerCase())
+    )
     );
   });
 
@@ -29,16 +31,17 @@ function Tutors() {
   };
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" style={{ marginTop: '7%' }}>
       <TextField
-        label="Search"
+        label="search name, id, or subject"
         variant="outlined"
         margin="normal"
         onChange={handleSearchChange}
+        style={{ width: '70%' }}
       />
-      <Grid container spacing={2}>
+      <Grid container spacing={3} style={{marginTop: '4%'}}>
         {filteredTutors.map((tutor) => (
-          <Grid item key={tutor._id} xs={12} sm={6} md={4}>
+          <Grid item key={tutor._id} xs={6}>
             <TutorCard tutor={tutor} />
           </Grid>
         ))}

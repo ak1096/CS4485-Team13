@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// schema defines the fields for the Tutor document
 const tutorSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
@@ -8,8 +7,13 @@ const tutorSchema = new mongoose.Schema({
   password: { type: String, required: true },
   biography: { type: String },
   subjects: [{ type: String }],
+  selectedDays: [{
+    day: { type: String },
+    startTime: { type: String },
+    endTime: { type: String },
+  }],
 });
 
-const Tutor = mongoose.model('TutorData', tutorSchema);
+const Tutor = mongoose.model('TutorTest', tutorSchema);
 
 module.exports = Tutor;

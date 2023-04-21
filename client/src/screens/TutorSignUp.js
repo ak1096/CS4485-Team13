@@ -9,6 +9,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import teaching from '../images/teacher.svg';
 import useForm from './CustomHook.js';
+import WeekdayPicker from '../components/WeekdayPicker';
 
 export default function TutorSignUp() {
   const [submitted, setSubmitted] = useState(false);
@@ -16,11 +17,15 @@ export default function TutorSignUp() {
   const [subjects, setSubjects] = useState([]);
   const [selectedChips, setSelectedChips] = useState([]);
   const [biography, setBiography] = useState('');
+  const [selectedDays, setSelectedDays] = useState([]);
+
+  const handleSelectedDaysChanged = (days) => {
+    setSelectedDays(days);
+  }
 
   const { password, firstName, lastName, email, isValid, handlePasswordChange, handleFirstNameChange, handleLastNameChange, handleEmailChange } = useForm();
 
   async function registerTutor() {
-    // make a POST request to the API endpoint for tutor registration
     const res = await fetch('http://localhost:8080/auth/tutor-register', {
       method: 'POST',
       headers: {
@@ -32,7 +37,8 @@ export default function TutorSignUp() {
         email,
         password,
         biography,
-        subjects
+        subjects,
+        selectedDays
       })
     })
     const data = await res.json();
@@ -58,13 +64,14 @@ export default function TutorSignUp() {
     setSelectedChips((chips) => chips.filter((chip) => chip.label !== chipToDelete.label));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = () => {
     if (isValid) {
+      // console.log("selectedDays"+ selectedDays);
       setSubmitted(true);
       registerTutor();
       alert('Registration successful, login')
     } else {
-      return console.log("invalid email");
+      return console.log("invalid email: ");
     }
   };
 
@@ -101,7 +108,6 @@ export default function TutorSignUp() {
                 />
               </Grid>
             </Grid>
-
 
           </Box>
 
@@ -165,12 +171,17 @@ export default function TutorSignUp() {
             }} />
 
           <div className={classes.divider} />
+          <Typography variant='h6'>Availability</Typography>
+
+          <WeekdayPicker onSelectedDaysChanged={handleSelectedDaysChanged} />
+
+          {/* <div className={classes.divider} /> */}
 
           <Button
             variant="contained"
             className={classes.customButton}
             onClick={handleSubmit}
-            disabled={!password || !firstName || !lastName || !email || !biography}
+            disabled={!password || !firstName || !lastName || !email || !biography || !subjects}
           >
             Sign Up
           </Button>

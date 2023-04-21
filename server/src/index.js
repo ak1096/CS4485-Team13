@@ -11,7 +11,6 @@ app.use(express.json());
 app.use("/auth", UserRouter);
 app.use("/tutors", TutorRouter);
 
-// const url = 'mongodb+srv://posadari:' + process.env.DB_PASSWORD + '@cluster0.yq35blg.mongodb.net/test2?retryWrites=true&w=majority'
 const url = "mongodb+srv://kiaraaleecia:" + process.env.DB_PASSWORD + "@ihkh.1nvgnmc.mongodb.net/test";
 async function connect() {
     try {
