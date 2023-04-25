@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 
 export const useGoogleAuth = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const key = process.env.apiKey;
+  const client = process.env.clientId;
 
   useEffect(() => {
     gapi.load('client:auth2', () => {

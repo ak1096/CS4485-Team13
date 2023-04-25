@@ -109,7 +109,7 @@ function TutorCard({ tutor }) {
     const formattedDate2 = newDateTime2.tz(timeZone).format('YYYY-MM-DDTHH:mm:ssZ');
     console.log(formattedDate2);
     console.log("data: " + calendarId, timeZone, eventName, formattedDate.toString(), formattedDate2.toString());
-    createEvent(calendarId, timeZone, '', formattedDate.toString(), formattedDate2.toString());
+    createEvent(calendarId, timeZone, eventName, formattedDate.toString(), formattedDate2.toString());
     alert('Event saved!')
 
     setSelectedValue('');

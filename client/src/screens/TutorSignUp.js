@@ -171,11 +171,11 @@ export default function TutorSignUp() {
             }} />
 
           <div className={classes.divider} />
-          <Typography variant='h6'>Availability</Typography>
+          <Typography variant='h6'>Availability Times</Typography>
 
           <WeekdayPicker onSelectedDaysChanged={handleSelectedDaysChanged} />
 
-          {/* <div className={classes.divider} /> */}
+          <div className={classes.divider} />
 
           <Button
             variant="contained"
@@ -185,10 +185,11 @@ export default function TutorSignUp() {
           >
             Sign Up
           </Button>
-          <div className={classes.divider} />
+          {/* <div className={classes.divider} /> */}
+          
           <Typography variant="body1">Have an account? <Link href="/login">Sign in</Link></Typography>
-
         </Grid>
+        
         <Grid item xs={12} sm={6}>
           <Box display="flex" justifyContent="center" style={{ marginTop: '20%', paddingBottom: '5%' }} >
             <img src={teaching} alt="teach" />

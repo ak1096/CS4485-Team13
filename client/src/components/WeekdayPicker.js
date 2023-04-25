@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { FormControlLabel, Checkbox, FormGroup, TextField } from '@material-ui/core';
 
 const weekdays = [
-    { name: 'Monday', value: 'Monday' },
-    { name: 'Tuesday', value: 'Tuesday' },
-    { name: 'Wednesday', value: 'Wednesday' },
-    { name: 'Thursday', value: 'Thursday' },
-    { name: 'Friday', value: 'Friday' },
+    { name: 'Mon', value: 'Monday' },
+    { name: 'Tues', value: 'Tuesday' },
+    { name: 'Wed', value: 'Wednesday' },
+    { name: 'Thurs', value: 'Thursday' },
+    { name: 'Fri', value: 'Friday' },
 ];
 
 function WeekdayPicker(props) {
@@ -57,7 +57,7 @@ function WeekdayPicker(props) {
     };
 
     return (
-        <FormGroup row>
+        <FormGroup row style={{width: '70%', justifyContent: 'center'}}>
             {weekdays.map((day, index) => {
                 const selectedDay = selectedDays.find((d) => d.day === day.value);
                 const startTime = selectedDay?.startTime || '';
@@ -108,7 +108,7 @@ function WeekdayPicker(props) {
                     </div>
                 );
             })}
-            <button onClick={handleSave}>Save</button>
+            
         </FormGroup>
     );
 }
