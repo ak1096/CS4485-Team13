@@ -13,7 +13,7 @@ export default function MiniCard(props) {
         <ListItem>
           <ListItemAvatar>
             <Avatar>
-            {text.initials}
+              {text.initials}
             </Avatar>
           </ListItemAvatar>
           <ListItemText primary={text.name} secondary={text.date} />
