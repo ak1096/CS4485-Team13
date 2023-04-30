@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import Calendar from './DateSelector';
 
-function AppointmentModal({ open, handleEventName, handleClose, handleDayChange, eventName, handleStartTimeChange, handleEndTimeChange, handleSubmitEvent, selectedValue, startTime, endTime, startTimeOptions, endTimeOptions, options, tutor, onDateChange, date }) {
+function AppointmentModal({ open, handleEventName, handleClose, handleDayChange, handleStartTimeChange, handleEndTimeChange, handleSubmitEvent, startTime, endTime, startTimeOptions, endTimeOptions, options, tutor, onDateChange, date }) {
   const backdropStyle = { backgroundColor: 'rgba(255, 255, 255, 0.8)' };
     return (
     <Modal open={open} style={{ display: "flex", alignItems: "center", justifyContent: "center" }} onClose={handleClose} BackdropProps={{ style: backdropStyle }}>

@@ -8,7 +8,6 @@ import MiniCard from '../components/MiniCard';
 import trophy from '../images/trophy.svg'
 import Typography from '@mui/material/Typography';
 import { UserContext } from '../AuthContext';
-import Favorites from '../components/Favorites';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -18,8 +17,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function Home() {
-  const { favorites, setFavorites } = useContext(UserContext);
+export default function TutorHome() {
   return (
     <Box sx={{ width: '100%', mt: '7rem', pl:'5rem' }}>
       <Grid container rowSpacing={4} columnSpacing={4}>
@@ -48,12 +46,6 @@ export default function Home() {
           <Item>
             <Typography variant="h4">Upcoming Appointments</Typography>
             <MiniCard />
-        </Item>
-        </Grid>
-        <Grid item xs={5}>
-          <Item>
-            <Typography variant="h4">Favorites</Typography>
-            <Favorites favorites={favorites} setFavorites={setFavorites} />
         </Item>
         </Grid>
         <Grid item xs={6}>
