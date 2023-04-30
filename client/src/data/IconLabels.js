@@ -5,7 +5,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 export const SideMenuTopList = [
     {
-        link: "/",
+        link: "/dashboard",
         icon: <AccountCircleIcon />,
         title: "Profile",
     },

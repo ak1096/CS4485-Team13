@@ -148,14 +148,36 @@ router.post("/create-appointments", async (req, res) => {
         };
 
         const tutorHasAppointment = tutor.appointments.some(
-            (appointment) =>
-              appointment.startTime === newAppointment.startTime &&
-              appointment.endTime === newAppointment.endTime &&
-              appointment.eventName === newAppointment.eventName &&
-              appointment.tutorName === newAppointment.tutorName
+            (appointment) => {
+              const newStart = new Date(newAppointment.startTime);
+              const newEnd = new Date(newAppointment.endTime);
+              const existingStart = new Date(appointment.startTime);
+              const existingEnd = new Date(appointment.endTime);
+          
+              return (
+                (newStart >= existingStart && newStart < existingEnd) || // New appointment starts during existing appointment
+                (newEnd > existingStart && newEnd <= existingEnd) || // New appointment ends during existing appointment
+                (newStart <= existingStart && newEnd >= existingEnd) // New appointment completely overlaps existing appointment
+              );
+            }
           );
-      
-          if (tutorHasAppointment) {
+
+          const userHasAppointment = user.appointments.some(
+            (appointment) => {
+              const newStart = new Date(newAppointment.startTime);
+              const newEnd = new Date(newAppointment.endTime);
+              const existingStart = new Date(appointment.startTime);
+              const existingEnd = new Date(appointment.endTime);
+          
+              return (
+                (newStart >= existingStart && newStart < existingEnd) || // New appointment starts during existing appointment
+                (newEnd > existingStart && newEnd <= existingEnd) || // New appointment ends during existing appointment
+                (newStart <= existingStart && newEnd >= existingEnd) // New appointment completely overlaps existing appointment
+              );
+            }
+          );
+          
+          if (tutorHasAppointment || userHasAppointment) {
             return res.json({ message: "Appointment already exists" });
           }
     
