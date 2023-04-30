@@ -119,14 +119,13 @@ router.get('/get-appointments', async (req, res) => {
     try {
         const userId = req.query.userId;
         const userType = req.query.userType;
-        // console.log('userID and userType: ' + userID + ' ' + userType);
-        let user;
         if (userType === 'user') {
-            user = await User.findById(userId).populate('appointments');
+            const user = await User.findById(userId).populate('appointments');
+            res.json(user.appointments);
         } else {
-            user = await Tutor.findById(userId).populate('appointments');
+            const tutor = await Tutor.findById(userId).populate('appointments');
+            res.json(tutor.appointments);
         }
-        res.json(user.appointments);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
@@ -138,62 +137,47 @@ router.post("/create-appointments", async (req, res) => {
         // Find the user by ID
         const user = await User.findById(req.query.userId);
         const tutor = await Tutor.findById(req.body.tutorID);
-    
-        // Create a new appointment object
-        const newAppointment = {
-          startTime: req.body.startTime,
-          endTime: req.body.endTime,
-          eventName: req.body.eventName,
-          tutorName: req.body.tutorName
-        };
+        const { firstName, lastName, email, password, year } = user;
+        const userName = `${firstName} ${lastName}`;
 
-        const tutorHasAppointment = tutor.appointments.some(
-            (appointment) => {
+        const newUserAppointment = { ...req.body, tutorName: req.body.tutorName };
+        const newTutorAppointment = { ...req.body, userName: userName };
+
+        const hasAppointmentConflict = (appointmentList, newAppointment) => {
+            return appointmentList.some((appointment) => {
               const newStart = new Date(newAppointment.startTime);
               const newEnd = new Date(newAppointment.endTime);
               const existingStart = new Date(appointment.startTime);
               const existingEnd = new Date(appointment.endTime);
-          
               return (
-                (newStart >= existingStart && newStart < existingEnd) || // New appointment starts during existing appointment
-                (newEnd > existingStart && newEnd <= existingEnd) || // New appointment ends during existing appointment
-                (newStart <= existingStart && newEnd >= existingEnd) // New appointment completely overlaps existing appointment
+                (newStart >= existingStart && newStart < existingEnd) ||
+                (newEnd > existingStart && newEnd <= existingEnd) ||
+                (newStart <= existingStart && newEnd >= existingEnd)
               );
-            }
-          );
+            });
+          };
+      
+          const tutorHasAppointment = hasAppointmentConflict(tutor.appointments, newTutorAppointment);
+          const userHasAppointment = hasAppointmentConflict(user.appointments, newUserAppointment);
+      
 
-          const userHasAppointment = user.appointments.some(
-            (appointment) => {
-              const newStart = new Date(newAppointment.startTime);
-              const newEnd = new Date(newAppointment.endTime);
-              const existingStart = new Date(appointment.startTime);
-              const existingEnd = new Date(appointment.endTime);
-          
-              return (
-                (newStart >= existingStart && newStart < existingEnd) || // New appointment starts during existing appointment
-                (newEnd > existingStart && newEnd <= existingEnd) || // New appointment ends during existing appointment
-                (newStart <= existingStart && newEnd >= existingEnd) // New appointment completely overlaps existing appointment
-              );
-            }
-          );
-          
-          if (tutorHasAppointment || userHasAppointment) {
+        if (tutorHasAppointment || userHasAppointment) {
             return res.json({ message: "Appointment already exists" });
-          }
-    
+        }
+
         // Add the new appointment to the user's appointments array
-        user.appointments.push(newAppointment);
-        tutor.appointments.push(newAppointment);
-    
+        user.appointments.push(newUserAppointment);
+        tutor.appointments.push(newTutorAppointment);
+
         // Save the updated user document to the database
         await user.save();
         await tutor.save();
-    
+
         res.status(200).json({ message: 'Appointment added successfully' });
-      } catch (err) {
+    } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error' });
-      }
+    }
 });
 
 module.exports = router;

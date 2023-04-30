@@ -4,7 +4,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import { UpcomingList } from '../data/Tutors';
 import { UserContext } from '../AuthContext';
 
 export default function MiniCard() {
@@ -17,7 +16,6 @@ export default function MiniCard() {
         const response = await fetch(`http://localhost:8080/auth/get-appointments?userId=${userId}&userType=${userType}`);
         const data = await response.json();
         setAppointments(data);
-        console.log('appointments: ' + data);
       } catch (error) {
         console.error(error);
       }
@@ -37,7 +35,11 @@ export default function MiniCard() {
               </ListItemAvatar>
               <ListItemText
                 primary={appointment.startTime + " - " + appointment.endTime}
-                secondary={appointment.eventName + ": " + appointment.tutorName}
+                secondary={
+                  userType === 'tutor'
+                    ? appointment.eventName + ": " + appointment.userName
+                    : appointment.eventName + ": " + appointment.tutorName
+                }
               />
             </ListItem>
           ))}

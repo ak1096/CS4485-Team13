@@ -146,7 +146,7 @@ function TutorCard({ tutor }) {
           endTime: dateTimeString2,
           eventName: eventName,
           tutorName: tutorName,
-          tutorID: tutor._id
+          tutorID: tutor._id,
         })
       });
   

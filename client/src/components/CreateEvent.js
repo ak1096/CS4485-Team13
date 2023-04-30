@@ -17,6 +17,14 @@ export const createEvent = (calendarId, timeZone, eventName, startISO, endISO) =
     //     email: attendeeEmail,
     //   },
     // ],
+    conferenceData: {
+      createRequest: {
+        requestId: `meet-${Date.now()}`,
+        conferenceSolutionKey: {
+          type: 'hangoutsMeet',
+        },
+      },
+    },
     reminders: {
       useDefault: true,
     },
@@ -26,6 +34,7 @@ export const createEvent = (calendarId, timeZone, eventName, startISO, endISO) =
     .insert({
       calendarId: calendarId,
       resource: event,
+      conferenceDataVersion: 1, // This is required to process conference data
     })
     .then((response) => {
       console.log('Event created:', response);

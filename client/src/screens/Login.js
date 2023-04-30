@@ -52,7 +52,7 @@ export default function LoginPage() {
     if (data.token) {
       setCookies("access_token", data.token);
       window.localStorage.setItem("userID", data.userID);
-      console.log('data.userID: ' + typeof(data.userID));
+      
       setUserId(data.userID);
       setUserType(data.userType);
       

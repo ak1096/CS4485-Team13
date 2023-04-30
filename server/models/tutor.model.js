@@ -16,7 +16,8 @@ const tutorSchema = new mongoose.Schema({
     startTime: { type: String },
     endTime: { type: String },
     eventName: { type: String },
-    tutorName: { type: String }
+    tutorName: { type: String },
+    userName: { type: String }
   }],
 });
 

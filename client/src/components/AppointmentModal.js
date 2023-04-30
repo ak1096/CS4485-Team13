@@ -8,13 +8,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import Calendar from './DateSelector';
 
-function AppointmentModal({ open, handleEventName, handleClose, handleDayChange, handleStartTimeChange, handleEndTimeChange, handleSubmitEvent, startTime, endTime, startTimeOptions, endTimeOptions, options, tutor, onDateChange, date }) {
+function AppointmentModal({ open, handleEventName, handleClose, handleDayChange, handleStartTimeChange, handleEndTimeChange, handleSubmitEvent, startTime, endTime, startTimeOptions, endTimeOptions, tutor, onDateChange }) {
   const backdropStyle = { backgroundColor: 'rgba(255, 255, 255, 0.8)' };
     return (
     <Modal open={open} style={{ display: "flex", alignItems: "center", justifyContent: "center" }} onClose={handleClose} BackdropProps={{ style: backdropStyle }}>
       <div>
         <TextField label="Event Name" onChange={handleEventName} style={{flex: 1}} />
-        <div>
+        <div style={{marginTop: '10%'}}>
           <FormControl>
             <Calendar tutor={tutor} onDayChange={handleDayChange} isModalOpen={open} onDateChange={onDateChange}/>
           </FormControl>
@@ -27,7 +27,6 @@ function AppointmentModal({ open, handleEventName, handleClose, handleDayChange,
                 <MenuItem key={option} value={option}>{option}</MenuItem>
               ))}
             </Select>
-            
           </FormControl>
         </div>
         <div>
@@ -40,7 +39,7 @@ function AppointmentModal({ open, handleEventName, handleClose, handleDayChange,
             </Select>
           </FormControl>
         </div>
-        <div>
+        <div style={{marginTop: '10%'}}>
           <Button variant="contained" color="primary" onClick={handleSubmitEvent} style={{flex: 1}}>Submit</Button>
         </div>
       </div>
