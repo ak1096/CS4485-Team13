@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:tutorid', async (req, res) => {
     try {
       const { id } = req.params;
       const tutor = await Tutor.findById(id);

@@ -25,7 +25,6 @@ function Tutors() {
     )
     );
   });
-  
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);

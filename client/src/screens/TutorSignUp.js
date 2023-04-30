@@ -66,6 +66,7 @@ export default function TutorSignUp() {
 
   const handleSubmit = () => {
     if (isValid) {
+      // console.log("selectedDays"+ selectedDays);
       setSubmitted(true);
       registerTutor();
       alert('Registration successful, login')
@@ -76,7 +77,7 @@ export default function TutorSignUp() {
 
   const classes = useStyles();
   return (
-    <Box className={classes.root} sx={{ flexGrow: 2 }}>
+    <Box className={classes.root} sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
 
         <Grid item xs={6} container
@@ -184,11 +185,9 @@ export default function TutorSignUp() {
           >
             Sign Up
           </Button>
-          <div className={classes.divider} />
+          {/* <div className={classes.divider} /> */}
           
-          <div style={{position:'absolute', bottom: 70}}>
-    <Typography variant="body1">Have an account? <Link href="/login">Sign in</Link></Typography>
-  </div>
+          <Typography variant="body1">Have an account? <Link href="/login">Sign in</Link></Typography>
         </Grid>
         
         <Grid item xs={12} sm={6}>

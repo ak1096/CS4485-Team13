@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
@@ -9,7 +9,6 @@ import Link from '@mui/material/Link';
 import online from '../images/online.svg';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { UserContext } from '../AuthContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
 export default function LoginPage() {
   const navigate = useNavigate();
   const [_, setCookies] = useCookies(["access_token"]);
-  const { setUserId, setUserType } = useContext(UserContext);
 
   async function loginUser() {
     const res = await fetch('http://localhost:8080/auth/login', {
@@ -48,22 +46,12 @@ export default function LoginPage() {
       })
     })
     const data = await res.json();
-
+    // console.log(data);
     if (data.token) {
       setCookies("access_token", data.token);
+      // console.log('userID: ', data.userID);
       window.localStorage.setItem("userID", data.userID);
-      console.log('data.userID: ' + typeof(data.userID));
-      setUserId(data.userID);
-      setUserType(data.userType);
-      
-      const userType = data.userType;
-      if (userType === 'tutor') {
-        navigate('/tutor-dashboard')
-      } else if (userType === 'user') {
-        navigate('/dashboard');
-      } else {
-        
-      }
+      navigate('/dashboard');
     } else {
       alert(data.message);
     }
@@ -75,10 +63,12 @@ export default function LoginPage() {
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
+    console.log('email: ' + email);
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
+    console.log('password: ' + password);
   };
 
   function handleSubmit(event) {

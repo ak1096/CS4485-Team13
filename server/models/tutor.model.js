@@ -12,6 +12,12 @@ const tutorSchema = new mongoose.Schema({
     startTime: { type: String },
     endTime: { type: String },
   }],
+  appointments: [{
+    startTime: { type: String },
+    endTime: { type: String },
+    eventName: { type: String },
+    tutorName: { type: String }
+  }],
 });
 
 const Tutor = mongoose.model('TutorTest', tutorSchema);

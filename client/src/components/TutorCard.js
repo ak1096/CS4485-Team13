@@ -3,17 +3,15 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@material-ui/core/IconButton';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AppointmentModal from './AppointmentModal';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { gapi } from 'gapi-script';
 import { useGoogleAuth } from '../components/auth';
 import { createEvent } from '../components/CreateEvent';
 import moment from 'moment-timezone';
-import { UserContext } from '../AuthContext';
 
 function TutorCard({ tutor }) {
   const { firstName, lastName, biography, subjects, selectedDays } = tutor;
   const { isSignedIn, handleSignIn, handleSignOut } = useGoogleAuth();
-  const { favorites, setFavorites, userId } = useContext(UserContext);
 
   const [openModal, setOpenModal] = useState(false);
   const [eventName, setEventName] = useState('');
@@ -59,29 +57,6 @@ function TutorCard({ tutor }) {
     setOpenModal(true);
   };
 
-  const handleAddToFavorites = async () => {
-    if (!favorites.some((fav) => fav.firstName === firstName && fav.lastName === lastName)) {
-      setFavorites([...favorites, tutor]);
-    } else {
-      setFavorites(favorites.filter((fav) => !(fav.firstName === firstName && fav.lastName === lastName)));
-    }
-
-    const response = await fetch('http://localhost:8080/auth/update-favorites', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        userId: userId,
-        tutorId: tutor._id
-      })
-    });
-    const data = await response.json();
-    console.log(data);
-
-  };
-  
-
   const handleCloseModal = () => {
     setSelectedValue('');
     setStartTimeOptions([]);
@@ -116,7 +91,7 @@ function TutorCard({ tutor }) {
     getStartAndEndTimes(selectedDay);
   };
 
-  const handleSubmitEvent = async () => {
+  const handleSubmitEvent = () => {
     console.log("date in createEvent: " + date);
     const newDate = date.toString();
     const dateString = newDate.replace(/ 00:00:00|\s+\(.+\)|\s+GMT[-+]\d{4}/g, '');
@@ -124,41 +99,18 @@ function TutorCard({ tutor }) {
     const dateTime = moment.tz(dateTimeString, "ddd MMM DD YYYY HH:mm", "America/Chicago");
     const startISO = dateTime.toISOString();
     const newDateTime = moment.utc(startISO);
-    const formattedDate = newDateTime.tz(timeZone).format('YYYY-MM-DDTHH:mm:ssZ').toString();
+    const formattedDate = newDateTime.tz(timeZone).format('YYYY-MM-DDTHH:mm:ssZ');
     console.log(formattedDate);
 
     const dateTimeString2 = `${dateString} ${endTime}`;
     const dateTime2 = moment.tz(dateTimeString2, "ddd MMM DD YYYY HH:mm", "America/Chicago");
     const endISO = dateTime2.toISOString();
     const newDateTime2 = moment.utc(endISO);
-    const formattedDate2 = newDateTime2.tz(timeZone).format('YYYY-MM-DDTHH:mm:ssZ').toString();
+    const formattedDate2 = newDateTime2.tz(timeZone).format('YYYY-MM-DDTHH:mm:ssZ');
     console.log(formattedDate2);
-    
-    const tutorName = `${firstName} ${lastName}`;
-    try {
-      const response = await fetch(`http://localhost:8080/auth/create-appointments?userId=${userId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          startTime: dateTimeString,
-          endTime: dateTimeString2,
-          eventName: eventName,
-          tutorName: tutorName,
-          tutorID: tutor._id
-        })
-      });
-  
-      const data = await response.json();
-
-      if (data.message !== 'Appointment already exists') {
-        createEvent(calendarId, timeZone, eventName, formattedDate, formattedDate2);
-      } 
-      alert(data.message);
-    } catch (err) {
-      console.error(err);
-    }
+    console.log("data: " + calendarId, timeZone, eventName, formattedDate.toString(), formattedDate2.toString());
+    createEvent(calendarId, timeZone, eventName, formattedDate.toString(), formattedDate2.toString());
+    alert('Event saved!')
 
     setSelectedValue('');
     setEventName('');
@@ -198,7 +150,7 @@ function TutorCard({ tutor }) {
         ))}
       </CardActions>
       <CardActions>
-        <IconButton title="Add to favorites" onClick={handleAddToFavorites}>
+        <IconButton title="Add to favorites" >
           <FavoriteIcon />
         </IconButton>
         <IconButton title="Book an appointment" onClick={handleOpenModal} >
