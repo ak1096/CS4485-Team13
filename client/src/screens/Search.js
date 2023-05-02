@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Grid, TextField } from '@material-ui/core';
 import TutorCard from '../components/TutorCard';
+import { GET_TUTORS } from '../data/apiEndpoints';
 
 function Tutors() {
   const [tutors, setTutors] = useState([]);
@@ -8,7 +9,7 @@ function Tutors() {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('http://localhost:8080/tutors');
+      const response = await fetch(`${GET_TUTORS}`);
       const data = await response.json();
       setTutors(data);
     }

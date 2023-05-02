@@ -10,6 +10,7 @@ import online from '../images/online.svg';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { UserContext } from '../AuthContext';
+import { LOGIN } from '../data/apiEndpoints';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +38,7 @@ export default function LoginPage() {
   const { setUserId, setUserType } = useContext(UserContext);
 
   async function loginUser() {
-    const res = await fetch('http://localhost:8080/auth/login', {
+    const res = await fetch(`${LOGIN}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

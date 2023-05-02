@@ -4,11 +4,12 @@ import { Button } from '@material-ui/core';
 import { useStyles } from "../styles/styling";
 import student from '../images/student.svg'; // import your image component here
 import useForm from './CustomHook.js';
+import { STUDENT_REGISTER } from '../data/apiEndpoints';
 
 export default function StudentSignUp() {
   async function registerUser() {
     // make a POST request to the API endpoint for student registration
-    const res = await fetch('http://localhost:8080/auth/student-register', {
+    const res = await fetch(`${STUDENT_REGISTER}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
