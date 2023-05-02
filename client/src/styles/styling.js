@@ -20,4 +20,20 @@ export const useStyles = makeStyles((theme) => ({
         width: "70%",
         height: "5%"
     },
+    avatar: {
+        height: 200,
+        width: 200,
+      },
+      divider: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+      },
+      info: {
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: theme.spacing(1),
+      },
+      icon: {
+        marginRight: theme.spacing(1),
+      }
 }));
