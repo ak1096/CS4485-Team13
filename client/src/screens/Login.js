@@ -4,13 +4,14 @@ import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
+import { Button,  Backdrop, CircularProgress } from '@material-ui/core';
 import Link from '@mui/material/Link';
 import online from '../images/online.svg';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { UserContext } from '../AuthContext';
 import { LOGIN } from '../data/apiEndpoints';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,46 +35,53 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [_, setCookies] = useCookies(["access_token"]);
   const { setUserId, setUserType } = useContext(UserContext);
 
   async function loginUser() {
-    const res = await fetch(`${LOGIN}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email,
-        password
-      })
-    })
-    const data = await res.json();
-
-    if (data.token) {
-      setCookies("access_token", data.token);
-      window.localStorage.setItem("userID", data.userID);
-      
-      setUserId(data.userID);
-      setUserType(data.userType);
-      
-      const userType = data.userType;
-      if (userType === 'tutor') {
-        navigate('/tutor-dashboard')
-      } else if (userType === 'user') {
-        navigate('/dashboard');
+    try {
+      const res = await fetch(`${LOGIN}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      });
+  
+      const data = await res.json();
+  
+      if (data.token) {
+        setCookies("access_token", data.token);
+        window.localStorage.setItem("userID", data.userID);
+  
+        setUserId(data.userID);
+        setUserType(data.userType);
+  
+        const userType = data.userType;
+        if (userType === 'tutor') {
+          navigate('/tutor-dashboard');
+        } else if (userType === 'user') {
+          navigate('/dashboard');
+        }
       } else {
-        
+        alert(data.message);
       }
-    } else {
-      alert(data.message);
+    } catch (error) {
+      console.error('Error during login:', error);
+      alert('Login failed. Please try again.');
+    } finally {
+      setLoading(false);
     }
   }
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitted, setSubmitted] = useState(false);
   
-
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
@@ -84,6 +92,7 @@ export default function LoginPage() {
 
   function handleSubmit(event) {
     event.preventDefault();
+    setLoading(true);
     setSubmitted(true);
     loginUser();
     console.log('button clicked');
@@ -140,6 +149,10 @@ export default function LoginPage() {
             {submitted && <Typography>You have submitted: {email}, {password}</Typography>} */}
         </Grid>
       </Grid>
+      <Backdrop open={loading} style={{ zIndex: 1, color: '#fff' }}>
+  <CircularProgress color="inherit" />
+</Backdrop>
+
     </Box>
   );
 }
