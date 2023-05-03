@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../AuthContext';
+import { GET_FAVORITES } from '../data/apiEndpoints';
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
@@ -8,7 +9,7 @@ const Favorites = () => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/auth/get-favorites?userId=${userId}`);
+        const response = await fetch(`${GET_FAVORITES}?userId=${userId}`);
         const data = await response.json();
         setFavorites(data);
         console.log('favorites: ' + data);

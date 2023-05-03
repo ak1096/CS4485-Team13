@@ -5,6 +5,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import { UserContext } from '../AuthContext';
+import { GET_APPOINTMENTS } from '../data/apiEndpoints';
 
 export default function MiniCard() {
   const [appointments, setAppointments] = useState([]);
@@ -13,7 +14,7 @@ export default function MiniCard() {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/auth/get-appointments?userId=${userId}&userType=${userType}`);
+        const response = await fetch(`${GET_APPOINTMENTS}?userId=${userId}&userType=${userType}`);
         const data = await response.json();
         setAppointments(data);
       } catch (error) {

@@ -10,6 +10,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import teaching from '../images/teacher.svg';
 import useForm from './CustomHook.js';
 import WeekdayPicker from '../components/WeekdayPicker';
+import { TUTOR_REGISTER } from '../data/apiEndpoints';
 
 export default function TutorSignUp() {
   const [submitted, setSubmitted] = useState(false);
@@ -26,7 +27,7 @@ export default function TutorSignUp() {
   const { password, firstName, lastName, email, isValid, handlePasswordChange, handleFirstNameChange, handleLastNameChange, handleEmailChange } = useForm();
 
   async function registerTutor() {
-    const res = await fetch('http://localhost:8080/auth/tutor-register', {
+    const res = await fetch(`${TUTOR_REGISTER}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

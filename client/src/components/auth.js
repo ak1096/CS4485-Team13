@@ -13,7 +13,7 @@ export const useGoogleAuth = () => {
         apiKey: process.env.REACT_APP_API_KEY,
         clientId: process.env.REACT_APP_CLIENT_ID,
         discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
-        scope: 'https://www.googleapis.com/auth/calendar.events',
+        scope: 'https://www.googleapis.com/auth/calendar',
       }).then(() => {
         const authInstance = gapi.auth2.getAuthInstance();
         setIsSignedIn(authInstance.isSignedIn.get());

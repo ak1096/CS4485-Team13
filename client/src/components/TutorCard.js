@@ -9,6 +9,7 @@ import { useGoogleAuth } from '../components/auth';
 import { createEvent } from '../components/CreateEvent';
 import moment from 'moment-timezone';
 import { UserContext } from '../AuthContext';
+import { CREATE_APPOINTMENTS, UPDATE_FAVORITES } from '../data/apiEndpoints';
 
 function TutorCard({ tutor }) {
   const { firstName, lastName, biography, subjects, selectedDays } = tutor;
@@ -66,7 +67,7 @@ function TutorCard({ tutor }) {
       setFavorites(favorites.filter((fav) => !(fav.firstName === firstName && fav.lastName === lastName)));
     }
 
-    const response = await fetch('http://localhost:8080/auth/update-favorites', {
+    const response = await fetch(`${UPDATE_FAVORITES}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -136,7 +137,7 @@ function TutorCard({ tutor }) {
     
     const tutorName = `${firstName} ${lastName}`;
     try {
-      const response = await fetch(`http://localhost:8080/auth/create-appointments?userId=${userId}`, {
+      const response = await fetch(`${CREATE_APPOINTMENTS}?userId=${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
