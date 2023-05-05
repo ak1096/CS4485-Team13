@@ -4,7 +4,7 @@ Tutor, I Hardly Know Her (TIHKR) is a full stack app that arranges online tutori
 
 ## Deployment
 
-The deployed version of the TIHKR app can be accessed [here](https://tihkr.netlify.app/). The server runs from https://tihkr.onrender.com/ and the initial log in might take awhile to load. Refresh the page and try registering and logging in again if the loading time takes too long.
+The deployed version of the TIHKR app can be accessed [here](https://tihkr.netlify.app/). The server runs from https://tihkr.onrender.com/ and the initial log in might take awhile to load since this is the free hosting version. Refresh the page and try registering and logging in again if the loading time takes too long or wait about 15 minutes in case there are no free requests currently available.
 
 ## Demo
 [Link to Demo](https://www.youtube.com/watch?v=YHCeZpKVXF0)
@@ -19,6 +19,7 @@ Please note that currently Google OAuth is only enabled for the current group me
 2. In the client folder, run `npm install` to install the client dependencies.
 3. In the server folder, run `npm install` to install the server dependencies.
 4. In client/src/data/apiEndpoints.js, uncomment the base urls that start with "http://localhost:8080" to call the server locally
+5. Add .env file in server folder, .env.local file in client folder, and request for the environment variables or else it won't run
 
 ## Usage
 
