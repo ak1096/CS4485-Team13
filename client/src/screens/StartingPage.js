@@ -48,7 +48,7 @@ function StartingPage() {
     event.preventDefault();
     setSubmitted(true);
     if (isTutor) {
-      window.location.href = '/tutor-signup';
+      window.location.href = '/t-signup';
     } else {
       window.location.href = '/signup';
     }

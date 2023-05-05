@@ -35,7 +35,7 @@ export default function LoginPage() {
   const [_, setCookies] = useCookies(["access_token"]);
 
   async function loginUser() {
-    const res = await fetch('http://localhost:8080/auth/login', {
+    const res = await fetch('http://localhost:3000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

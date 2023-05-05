@@ -8,7 +8,7 @@ import useForm from './CustomHook.js';
 export default function StudentSignUp() {
   async function registerUser() {
     // make a POST request to the API endpoint for student registration
-    const res = await fetch('http://localhost:8080/auth/student-register', {
+    const res = await fetch('http://localhost:5000/s-auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
