@@ -4,7 +4,7 @@ export const UserContext = createContext({
     favorites: [],
     userId: '',
     appointments: [],
-    userType: ''
+    userType: '',
   });
 
   export const AuthProvider = ({ children }) => {
@@ -21,7 +21,7 @@ export const UserContext = createContext({
       appointments,
       setAppointments,
       userType,
-      setUserType
+      setUserType,
     };
   
     return (

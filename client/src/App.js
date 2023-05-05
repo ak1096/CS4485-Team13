@@ -1,6 +1,5 @@
 import Search from './screens/Search'
 import Home from './screens/Home'
-import NotificationsPage from './screens/Notifications';
 import SettingsPage from './screens/Settings';
 import CalendarPage from './screens/Calendar';
 import LoginPage from './screens/Login';
@@ -12,6 +11,8 @@ import './App.css';
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import TutorHome from './screens/TutorHome';
 import { AuthProvider } from './AuthContext';
+import ProfilePage from './screens/Profile';
+import StickyFooter from './components/Footer';
 
 function App() {
   return (
@@ -26,11 +27,11 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/tutor-signup" element={<TutorSignUp />} />
-            <Route path="/notifs" element={<NotificationsPage />} />
             <Route path="/search" element={<Search />} />
             <Route path="/calendar" element={<CalendarPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/settings" element={<ProfilePage />} />
           </Routes>
+          <StickyFooter />
         </BrowserRouter>
       </AuthProvider>
     </div>
