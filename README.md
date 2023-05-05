@@ -18,6 +18,7 @@ Please note that currently Google OAuth is only enabled for the current group me
 1. Clone the repository.
 2. In the client folder, run `npm install` to install the client dependencies.
 3. In the server folder, run `npm install` to install the server dependencies.
+4. In client/src/data/apiEndpoints.js, uncomment the base urls that start with "http://localhost:8080" to call the server locally
 
 ## Usage
 
