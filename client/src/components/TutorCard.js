@@ -14,7 +14,7 @@ import { CREATE_APPOINTMENTS, UPDATE_FAVORITES } from '../data/apiEndpoints';
 function TutorCard({ tutor }) {
   const { firstName, lastName, biography, subjects, selectedDays } = tutor;
   const { isSignedIn, handleSignIn, handleSignOut } = useGoogleAuth();
-  const { favorites, setFavorites, userId } = useContext(UserContext);
+  const { favorites, setFavorites, userId} = useContext(UserContext);
 
   const [openModal, setOpenModal] = useState(false);
   const [eventName, setEventName] = useState('');
@@ -153,10 +153,15 @@ function TutorCard({ tutor }) {
   
       const data = await response.json();
 
-      if (data.message !== 'Appointment already exists') {
+      if (data.message !== 'Appointment already exists' && isSignedIn) {
         createEvent(calendarId, timeZone, eventName, formattedDate, formattedDate2);
       } 
-      alert(data.message);
+
+      if (!isSignedIn) {
+        alert('Appointment booked, but cannot connect to Google account');
+      } else{
+        alert(data.message);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -205,9 +210,6 @@ function TutorCard({ tutor }) {
         <IconButton title="Book an appointment" onClick={handleOpenModal} >
           <CalendarMonthIcon />
         </IconButton>
-        {isSignedIn ? (
-        <div>
-          <div>user is signed in</div>
           <AppointmentModal 
           open={openModal} 
           handleEventName={(e) => {setEventName(e.target.value)}}
@@ -228,14 +230,6 @@ function TutorCard({ tutor }) {
           onDayChange={handleDayChange}
           onDateChange={handleDateChange}
         />
-          <button onClick={handleSignOut}>Sign Out</button>
-        </div>
-      ) : (
-        <div>
-          <div>user is not signed in</div>
-          <button onClick={handleSignIn}>Sign In</button>
-        </div>
-      )}
       </CardActions>
     </Card>
   );

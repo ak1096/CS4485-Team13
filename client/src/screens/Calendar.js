@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { gapi } from 'gapi-script';
 import { useGoogleAuth } from '../components/auth';
 import Calendar from '../components/GoogleCalendar';
+import GoogleButton from 'react-google-button';
 
 const CalendarPage = () => {
   const { isSignedIn, handleSignIn, handleSignOut } = useGoogleAuth();
@@ -29,18 +30,20 @@ const CalendarPage = () => {
     <div style={{ marginTop: '10%' }}>
       {isSignedIn ? (
         <div>
-          <div>user is signed in</div>
-          <button onClick={handleSignOut}>Sign Out</button>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <GoogleButton type="light" label='Sign Out with Google' onClick={handleSignOut} />
+          </div>
+          <div style={{marginBottom: '1%'}}/>
           <Calendar calendarId={calendarId} timeZone={timeZone} />
         </div>
       ) : (
-        <div>
-          <div>user is not signed in</div>
-          <button onClick={handleSignIn}>Sign In</button>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <GoogleButton type="light" onClick={handleSignIn} />
         </div>
       )}
     </div>
   );
+  
 };
 
 export default CalendarPage;
