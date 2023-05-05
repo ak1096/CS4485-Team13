@@ -5,6 +5,7 @@
 // export const LOGIN = 'http://localhost:8080/auth/login';
 // export const GET_APPOINTMENTS = 'http://localhost:8080/auth/get-appointments';
 // export const CREATE_APPOINTMENTS = 'http://localhost:8080/auth/create-appointments';
+// export const GET_TUTORS = 'https://localhost:8080/tutors';
 
 export const GET_FAVORITES = 'https://tihkr.onrender.com/auth/get-favorites';
 export const UPDATE_FAVORITES = 'https://tihkr.onrender.com/auth/update-favorites';
